@@ -1,0 +1,176 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="9/25/2026 4:55:32 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DESKTOP-6J4OB6P"
+  DTS:CreatorName="DESKTOP-6J4OB6P\HuyLai"
+  DTS:DTSID="{6A23B79B-F6E6-43ED-8C0C-749483506D5C}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="17.0.1016.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Package"
+  DTS:PackageType="5"
+  DTS:VersionBuild="6"
+  DTS:VersionGUID="{ED8A0800-C5B4-48A1-A4DE-01505726AF95}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[localhost.DataWarehouse_Weather]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{29D76AE5-6636-4BD7-A4C2-544EF8F1E636}"
+      DTS:ObjectName="localhost.DataWarehouse_Weather">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=localhost;Initial Catalog=DataWarehouse_Weather;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-Package-{29D76AE5-6636-4BD7-A4C2-544EF8F1E636}localhost.DataWarehouse_Weather;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[localhost.DataWarehouse_Weather 1]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{8593AC73-71FF-4F26-A692-BD3A18DDBE80}"
+      DTS:ObjectName="localhost.DataWarehouse_Weather 1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=localhost;Initial Catalog=DataWarehouse_Weather;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Application Name=SSIS-Package-{8593AC73-71FF-4F26-A692-BD3A18DDBE80}localhost.DataWarehouse_Weather 1;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SQLServer_Local]"
+      DTS:CreationName="ADO.NET:SQL"
+      DTS:DTSID="{FCCF0BB2-FED7-49CB-9BD6-3D8ED2901494}"
+      DTS:ObjectName="SQLServer_Local">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=.;Initial Catalog=;Integrated Security=True;Pooling=True;Min Pool Size=0;Max Pool Size=100;Connect Timeout=15;Encrypt=True;TrustServerCertificate=True;Packet Size=8000;Type System Version=Latest;Application Name=&quot;Framework Microsoft SqlClient Data Provider&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Task"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{FF1AC688-E120-469C-8259-9E8391E057D1}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Task"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SEQ_Build_DW"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{319FA782-6C16-4705-B4BA-680993C30CCE}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SEQ_Build_DW">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SEQ_Build_DW\Create_DIM_FACT_Table"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{536ED85A-7C41-4BEE-A9CD-49AB375445A2}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Create_DIM_FACT_Table"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{29D76AE5-6636-4BD7-A4C2-544EF8F1E636}"
+              SQLTask:SqlStatementSource="-- DIM_DATE&#xA;IF NOT EXISTS (&#xA;    SELECT * FROM sysobjects&#xA;    WHERE name = 'DIM_DATE' AND xtype = 'U'&#xA;)&#xA;BEGIN&#xA;    CREATE TABLE DIM_DATE (&#xA;        DateID INT IDENTITY(1,1) PRIMARY KEY,&#xA;        FullDate DATE,&#xA;        Day INT,&#xA;        Month INT,&#xA;        Quarter INT,&#xA;        Year INT&#xA;    );&#xA;END;&#xA;&#xA;&#xA;-- DIM_LOCATION&#xA;IF NOT EXISTS (&#xA;    SELECT * FROM sysobjects&#xA;    WHERE name = 'DIM_LOCATION' AND xtype = 'U'&#xA;)&#xA;BEGIN&#xA;    CREATE TABLE DIM_LOCATION (&#xA;        LocationID INT IDENTITY(1,1) PRIMARY KEY,&#xA;        Country NVARCHAR(150),&#xA;        LocationName NVARCHAR(150),&#xA;        Latitude DECIMAL(9,6),&#xA;        Longitude DECIMAL(9,6),&#xA;        Timezone NVARCHAR(100),&#xA;        Continent NVARCHAR(100),&#xA;        Region NVARCHAR(100),&#xA;        Capital NVARCHAR(100)&#xA;    );&#xA;END;&#xA;&#xA;&#xA;-- DIM_CONDITION&#xA;IF NOT EXISTS (&#xA;    SELECT * FROM sysobjects&#xA;    WHERE name = 'DIM_CONDITION' AND xtype = 'U'&#xA;)&#xA;BEGIN&#xA;    CREATE TABLE DIM_CONDITION (&#xA;        ConditionID INT IDENTITY(1,1) PRIMARY KEY,&#xA;        ConditionText NVARCHAR(100),&#xA;        ConditionGroup NVARCHAR(100)&#xA;    );&#xA;END;&#xA;&#xA;&#xA;-- DIM_AIRQUALITY&#xA;IF NOT EXISTS (&#xA;    SELECT * FROM sysobjects&#xA;    WHERE name = 'DIM_AIRQUALITY' AND xtype = 'U'&#xA;)&#xA;BEGIN&#xA;    CREATE TABLE DIM_AIRQUALITY (&#xA;        AirQualityID INT IDENTITY(1,1) PRIMARY KEY,&#xA;        USEPAIndex INT,&#xA;        AirQualityLevel NVARCHAR(50),&#xA;        DEFRAIndex INT,&#xA;        DEFRALevel NVARCHAR(50)&#xA;    );&#xA;END;&#xA;&#xA;&#xA;-- DIM_TIME&#xA;IF NOT EXISTS (&#xA;    SELECT * FROM sysobjects&#xA;    WHERE name = 'DIM_TIME' AND xtype = 'U'&#xA;)&#xA;BEGIN&#xA;    CREATE TABLE DIM_TIME (&#xA;        TimeID INT IDENTITY(1,1) PRIMARY KEY,&#xA;        Hour TINYINT,&#xA;        Minute TINYINT,&#xA;        TimePeriod NVARCHAR(50)&#xA;    );&#xA;END;&#xA;&#xA;&#xA;-- DIM_UV&#xA;IF NOT EXISTS (&#xA;    SELECT * FROM sysobjects&#xA;    WHERE name = 'DIM_UV' AND xtype = 'U'&#xA;)&#xA;BEGIN&#xA;    CREATE TABLE DIM_UV (&#xA;        UVID INT IDENTITY(1,1) PRIMARY KEY,&#xA;        UVLevel NVARCHAR(50),&#xA;        UVMin DECIMAL(4,1),&#xA;        UVMax DECIMAL(4,1),&#xA;        ProtectionLevel NVARCHAR(50)&#xA;    );&#xA;END;&#xA;&#xA;&#xA;-- DIM_WIND&#xA;IF NOT EXISTS (&#xA;    SELECT * FROM sysobjects&#xA;    WHERE name = 'DIM_WIND' AND xtype = 'U'&#xA;)&#xA;BEGIN&#xA;    CREATE TABLE DIM_WIND (&#xA;        WindID INT IDENTITY(1,1) PRIMARY KEY,&#xA;        WindDirection NVARCHAR(20),&#xA;        WindDegree INT,&#xA;        WindLevel NVARCHAR(50)&#xA;    );&#xA;END;&#xA;&#xA;&#xA;-- DIM_PRECIPITATION&#xA;IF NOT EXISTS (&#xA;    SELECT * FROM sysobjects&#xA;    WHERE name = 'DIM_PRECIPITATION' AND xtype = 'U'&#xA;)&#xA;BEGIN&#xA;    CREATE TABLE DIM_PRECIPITATION (&#xA;        PrecipitationID INT IDENTITY(1,1) PRIMARY KEY,&#xA;        PrecipitationLevel NVARCHAR(20),&#xA;        IsRainy BIT&#xA;    );&#xA;END;&#xA;&#xA;&#xA;-- FACT_WEATHER&#xA;IF NOT EXISTS (&#xA;    SELECT * FROM sysobjects&#xA;    WHERE name = 'FACT_WEATHER' AND xtype = 'U'&#xA;)&#xA;BEGIN&#xA;    CREATE TABLE FACT_WEATHER (&#xA;        WeatherFactID INT IDENTITY(1,1) PRIMARY KEY,&#xA;&#xA;        DateID INT,&#xA;        LocationID INT,&#xA;        ConditionID INT,&#xA;        AirQualityID INT,&#xA;        UVID INT,&#xA;        WindID INT,&#xA;        PrecipitationID INT,&#xA;        TimeID INT,&#xA;&#xA;        ObservationTime TIME,&#xA;        TemperatureCelsius DECIMAL(5,2),&#xA;        WindKph DECIMAL(6,2),&#xA;        PrecipMm DECIMAL(7,2),&#xA;        Humidity INT,&#xA;        VisibilityKm DECIMAL(6,2),&#xA;        UVIndex DECIMAL(5,2),&#xA;        PM2_5 DECIMAL(10,2),&#xA;        PM10 DECIMAL(10,2)&#xA;    );&#xA;END;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{07B34B23-EB77-4B3F-80DB-F23C2E08FE9A}"
+      DTS:From="Package\SEQ_Build_DW"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Data Flow Task" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="153.333333333334,42.6666666666667"
+          Id="Package\Data Flow Task"
+          TopLeft="176.534083017402,279.140348105082" />
+        <NodeLayout
+          Size="258,42"
+          Id="Package\SEQ_Build_DW\Create_DIM_FACT_Table"
+          TopLeft="65.9166585641605,72.0050112649361" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="346.666666666667,186"
+          Size="346.666666666667,229.333333333334"
+          Id="Package\SEQ_Build_DW"
+          TopLeft="115.31249484513,0.504385963034167" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="288.645828178463,229.837719296368">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-35.4450784943943,49.3026288087142"
+              Start="0,0"
+              End="-35.4450784943943,41.8026288087142">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.6513144043571" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.6513144043571"
+                    Point2="0,24.6513144043571"
+                    Point3="-4,24.6513144043571" />
+                  <mssgle:LineSegment
+                    End="-31.4450784943943,24.6513144043571" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-31.4450784943943,24.6513144043571"
+                    Point2="-35.4450784943943,24.6513144043571"
+                    Point3="-35.4450784943943,28.6513144043571" />
+                  <mssgle:LineSegment
+                    End="-35.4450784943943,41.8026288087142" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
